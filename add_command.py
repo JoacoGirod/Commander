@@ -35,7 +35,7 @@ def main():
     # os.chmod(bash_script_path, 0o755)
 
     # Add the new command to the command file
-    persistance_dao.add_command(command.to_json)
+    persistance_dao.add_command(command)
 
     print("Command " + command.command_name + " succesfully created!")
 

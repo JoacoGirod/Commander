@@ -12,7 +12,10 @@ class Command:
     @classmethod
     def from_json(cls, json_str):
         json_data = json.loads(json_str)
-        return Command(**json_data)
+        return cls(**json_data)
+
+    def get_instance_as_dictionary(self):
+        return self.__dict__
 
     def __str__(self):
         return f"<Command name='{self.command_name}', path='{self.path_to_script}', date='{self.creation_date}'>"

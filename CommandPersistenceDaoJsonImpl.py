@@ -23,7 +23,9 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
     # Override
     def add_command(self, new_command):
         commands = self.load_commands()
-        commands.append(new_command)
+        print(commands)
+        commands.append(new_command.get_instance_as_dictionary())
+        print(commands)
         self.save_commands(self.persistence_file, commands)
 
     # Override
