@@ -1,0 +1,11 @@
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore Python cache directories
+__pycache__
+
+# Ignore custom commands history file
+custom_commands_history
+
+test_sum_args.py
+install_command_crud.py

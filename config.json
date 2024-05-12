@@ -1,0 +1,6 @@
+{
+    "persistence": {
+        "type": "json",
+        "path_to_custom_commands_history": "/home/joaquin/Desktop/Python/command_crud/custom_commands_history"
+    }
+}
