@@ -1,6 +1,7 @@
 {
     "persistence": {
         "type": "json",
-        "path_to_custom_commands_history": "/home/joaquin/Desktop/Python/command_crud/custom_commands_history"
+        "path_to_custom_commands_history_directory": "/home/joaquin/Desktop/Python/Commander/persistence/implementations/JSON/",
+        "history_file_name": "custom_commands.json"
     }
 }

@@ -1,5 +1,5 @@
 import json
-from CommandPersistenceDao import *
+from persistence.CommandPersistenceDao import *
 
 # Implementing the interface
 class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
@@ -9,28 +9,17 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
             print("Implementation manages JSON but configuration specifies " + persistence_configuration.type + " as persistence type")
             print(persistence_configuration)
             return
-        self.persistence_file = persistence_configuration.get("path_to_custom_commands_history")
-
-
-    # def add_command(self, new_command):
-    #     commands = self.load_commands()
-    #     if not commands:  # Check if commands is empty
-    #         commands = [new_command]  # Initialize commands with new_command
-    #     else:
-    #         commands.append(new_command)  # Append new_command to existing commands
-    #     self.save_commands(self.persistence_file, commands)
+        self.persistence_file = persistence_configuration.get("path_to_custom_commands_history_directory") + persistence_configuration.get("history_file_name")
 
     # Override
     def add_command(self, new_command):
         commands = self.load_commands()
-        print(commands)
         commands.append(new_command.get_instance_as_dictionary())
-        print(commands)
         self.save_commands(self.persistence_file, commands)
 
     # Override
     def list_commands(self):
-        return self.load_commands
+        return self.load_commands()
 
     # Override
     def delete_command(self, command_to_delete):
