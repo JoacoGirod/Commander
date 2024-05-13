@@ -22,9 +22,24 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         return self.load_commands()
 
     # Override
-    def delete_command(self, command_to_delete):
-        return
+    def find_command(self, command_to_find):
+        commands = self.load_commands()
+        for command in commands:
+            if command.get("command_name") == command_to_find:
+                print(command)
+                return
+        print("Error: Command not found.\n Hint: you can list the commands with <list_commands>.")
 
+    # Override
+    def delete_command(self, command_to_delete):
+        commands = self.load_commands()
+        for command in commands:
+            if command.get("command_name") == command_to_delete:
+                commands.remove(command)
+                self.save_commands(self.persistence_file, commands)
+                return
+        print("Error: Command not found.\n Hint: you can list the commands with <list_commands>.")
+        return
 
     ### Utility Methods
     def load_commands(self):
@@ -37,6 +52,16 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         except (FileNotFoundError, json.JSONDecodeError):
             return []
 
+    # Override
+    def update_command(self, command_to_update, new_path):
+        commands = self.load_commands()
+        for command in commands:
+            if command.get("command_name") == command_to_update:
+                command["path_to_script"] = new_path
+                self.save_commands(self.persistence_file, commands)
+                return
+        print("Error: Command not found.\n Hint: you can list the commands with <list_commands>.")
+        return
 
     def save_commands(self, filename, commands):
         with open(filename, 'w') as file:

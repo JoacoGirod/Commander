@@ -1,13 +1,15 @@
-import os
-import sys
 import json
+import sys
+import os
+from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from models.Command import Command
 from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
 
 def main():
-    if len(sys.argv) > 2:
-        print("Usage: list_commands [-a]")
+    if len(sys.argv) != 2:
+        print("Usage: find_command <command_name>")
         return
 
     # Get Persistence Strategy from Config File
@@ -15,13 +17,8 @@ def main():
         config = json.loads(config_file.read())
     persistance_dao = CommandPersistenceDaoJsonImpl(config.get("persistence"))
 
-    if len(sys.argv) == 2:
-        if  sys.argv[1] == '-a':
-            command_list = '\n'.join([f"Command <{cmd['command_name']}> || Path <{cmd['path_to_script']}> || Creation Date <{cmd['creation_date']}>" for cmd in persistance_dao.list_commands()])
-    else:
-        command_list = '\n'.join([f"<{cmd['command_name']}>" for cmd in persistance_dao.list_commands()])
-
-    print(command_list)
+    # Add the new command to the command file
+    persistance_dao.find_command(sys.argv[1])
 
 if __name__ == "__main__":
     main()

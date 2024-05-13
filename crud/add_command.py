@@ -15,7 +15,6 @@ def main():
     # Get Persistence Strategy from Config File
     with open("config.json", 'r') as config_file:
         config = json.loads(config_file.read())
-
     persistance_dao = CommandPersistenceDaoJsonImpl(config.get("persistence"))
     command = Command(sys.argv[1], sys.argv[2], datetime.now().isoformat())
 
@@ -32,7 +31,7 @@ def main():
     # Add the new command to the command file
     persistance_dao.add_command(command)
 
-    print("Command " + command.command_name + " succesfully created!")
+    print("Command <" + command.command_name + "> succesfully created.")
 
 if __name__ == "__main__":
     main()

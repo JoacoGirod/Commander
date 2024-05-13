@@ -10,5 +10,13 @@ class CommandPersistenceDao(ABC):
         pass
 
     @abstractmethod
+    def find_command():
+        pass
+
+    @abstractmethod
     def delete_command(command_to_delete):
+        pass
+
+    @abstractmethod
+    def update_command(command_to_update):
         pass
