@@ -15,10 +15,13 @@ def main():
     # Get Persistence Strategy from Config File
     with open("config.json", 'r') as config_file:
         config = json.loads(config_file.read())
-    persistance_dao = CommandPersistenceDaoJsonImpl(config.get("persistence"))
+    persistence_dao = CommandPersistenceDaoJsonImpl(config)
 
     # Add the new command to the command file
-    persistance_dao.update_command(sys.argv[1], sys.argv[2])
+    if persistence_dao.update_command(sys.argv[1], sys.argv[2]):
+        print("Command '" + sys.argv[1] + "' updated succesfully.")
+    else:
+        print(f"""Error: Command '{sys.argv[1]}' was not found.""")
 
 if __name__ == "__main__":
     main()

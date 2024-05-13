@@ -8,5 +8,4 @@ __pycache__
 custom_commands_history
 
 test_sum_args.py
-install_command_crud.py
 persistence/implementations/JSON/custom_commands.json

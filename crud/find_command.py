@@ -15,10 +15,15 @@ def main():
     # Get Persistence Strategy from Config File
     with open("config.json", 'r') as config_file:
         config = json.loads(config_file.read())
-    persistance_dao = CommandPersistenceDaoJsonImpl(config.get("persistence"))
+    persistence_dao = CommandPersistenceDaoJsonImpl(config)
 
-    # Add the new command to the command file
-    persistance_dao.find_command(sys.argv[1])
+    # Functionality
+    maybe_command = persistence_dao.find_command(sys.argv[1])
+    if maybe_command == False or maybe_command == None:
+        print(f"""Error: Command '{sys.argv[1]}' was not found.""")
+        return
+
+    print(f"""Command Name : {maybe_command.get("command_name")} \nPath to Script : {maybe_command.get("path_to_script")}\nDate of Creation : {datetime.fromisoformat(maybe_command.get("creation_date"))}""")
 
 if __name__ == "__main__":
     main()

@@ -5,10 +5,6 @@ from persistence.CommandPersistenceDao import *
 class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        if persistence_configuration.get("type") != 'json':
-            print("Implementation manages JSON but configuration specifies " + persistence_configuration.type + " as persistence type")
-            print(persistence_configuration)
-            return
         self.persistence_file = persistence_configuration.get("path_to_custom_commands_history_directory") + persistence_configuration.get("history_file_name")
 
     # Override
@@ -26,9 +22,8 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         commands = self.load_commands()
         for command in commands:
             if command.get("command_name") == command_to_find:
-                print(command)
-                return
-        print("Error: Command not found.\n Hint: you can list the commands with <list_commands>.")
+                return command
+        return
 
     # Override
     def delete_command(self, command_to_delete):
@@ -37,9 +32,8 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
             if command.get("command_name") == command_to_delete:
                 commands.remove(command)
                 self.save_commands(self.persistence_file, commands)
-                return
-        print("Error: Command not found.\n Hint: you can list the commands with <list_commands>.")
-        return
+                return True
+        return False
 
     ### Utility Methods
     def load_commands(self):
@@ -59,9 +53,8 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
             if command.get("command_name") == command_to_update:
                 command["path_to_script"] = new_path
                 self.save_commands(self.persistence_file, commands)
-                return
-        print("Error: Command not found.\n Hint: you can list the commands with <list_commands>.")
-        return
+                return True
+        return False
 
     def save_commands(self, filename, commands):
         with open(filename, 'w') as file:

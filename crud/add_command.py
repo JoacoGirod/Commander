@@ -13,9 +13,10 @@ def main():
         return
 
     # Get Persistence Strategy from Config File
-    with open("config.json", 'r') as config_file:
+    with open(os.getcwd() + "/config.json", 'r') as config_file:
         config = json.loads(config_file.read())
-    persistance_dao = CommandPersistenceDaoJsonImpl(config.get("persistence"))
+
+    persistence_dao = CommandPersistenceDaoJsonImpl(config)
     command = Command(sys.argv[1], sys.argv[2], datetime.now().isoformat())
 
     # Create a bash script in /usr/local/bin
@@ -29,9 +30,9 @@ def main():
     os.chmod(bash_script_path, 0o755)
 
     # Add the new command to the command file
-    persistance_dao.add_command(command)
+    persistence_dao.add_command(command)
 
-    print("Command <" + command.command_name + "> succesfully created.")
+    print("Command '" + command.command_name + "' succesfully created.")
 
 if __name__ == "__main__":
     main()
