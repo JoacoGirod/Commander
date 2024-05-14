@@ -1,5 +1,5 @@
 {
-    "type": "JSON",
-    "path_to_custom_commands_history_directory": "/home/joaquin/Desktop/Python/Commander/persistence/implementations/JSON/",
-    "history_file_name": "custom_commands.json"
+    "type": "YAML",
+    "path_to_custom_commands_history_directory": "/home/joaquin/Desktop/Python/Commander/persistence/implementations/YAML/",
+    "history_file_name": "custom_commands.yaml"
 }

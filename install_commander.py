@@ -11,14 +11,14 @@ import os
 def main():
     # These are statically defined but input() could be used to configure them
     cwd = os.getcwd()
-    persistence_type = "JSON"
-    storing_file = cwd + "/persistence/implementations/JSON/"
+    persistence_type = "YAML"
+    storing_file = cwd + "/persistence/implementations/" + persistence_type + "/"
 
     # Create config.json
     config_dictionary = {
         "type" : persistence_type,
         "path_to_custom_commands_history_directory" : storing_file,
-        "history_file_name" : "custom_commands" + ".json"
+        "history_file_name" : "custom_commands" + ".yaml"
     }
     with open("config.json", 'w') as config_file:
         json.dump(config_dictionary, config_file, indent=4)
@@ -35,7 +35,7 @@ def main():
             print(f"Error installing {command}:")
             print(result.stderr)
 
-    print("Using add_command, update_command and delete_command requires sudo privileges.")
+    print("\nInfo : Using add_command, update_command and delete_command requires sudo privileges.")
 
 if __name__ == "__main__":
     main()

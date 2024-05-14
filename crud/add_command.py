@@ -4,6 +4,9 @@ import os
 from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from persistence.PersistenceManager import *
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.Command import Command
 from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
 
@@ -12,11 +15,7 @@ def main():
         print("Usage: add_command <command_name> <absolute_path_to_python_script>")
         return
 
-    # Get Persistence Strategy from Config File
-    with open(os.getcwd() + "/config.json", 'r') as config_file:
-        config = json.loads(config_file.read())
-
-    persistence_dao = CommandPersistenceDaoJsonImpl(config)
+    persistence_dao = PersistenceManager().get_implementation()
     command = Command(sys.argv[1], sys.argv[2], datetime.now().isoformat())
 
     # Create a bash script in /usr/local/bin

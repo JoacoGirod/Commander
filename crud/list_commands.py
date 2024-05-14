@@ -4,17 +4,14 @@ import json
 import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
+from persistence.PersistenceManager import *
 
 def main():
     if len(sys.argv) > 2:
         print("Usage: list_commands [-a]")
         return
 
-    # Get Persistence Strategy from Config File
-    with open("config.json", 'r') as config_file:
-        config = json.loads(config_file.read())
-    persistence_dao = CommandPersistenceDaoJsonImpl(config)
+    persistence_dao = PersistenceManager().get_implementation()
 
     if len(sys.argv) == 2:
         if  sys.argv[1] == '-a':

@@ -6,7 +6,7 @@
     cd commander
 ```
 ```
-    sudo python3 install_command_crud.py
+    sudo python3 install_commander.py
 ```
 
 # Basic Functionalities
@@ -38,8 +38,7 @@
 ### When to stop
 - list_local_commands
 - Somehow use enum or constants for global variables, is there a way to define a constant based on the value property of a json, the script basically is guessing that in config there is a property called persistence
-- Extract Persistence implementation from the code
-- Create a second persistence implementation, some kind of lightweight sql db, like HyperSQL just to test the flexibility of the application. &YAML or other formats could also be fun
+- Create a second persistence implementation, some kind of lightweight sql db, like HyperSQL just to test the flexibility of the application. YAML or other formats could also be fun
 - Improve on visibility for the objects, usage of the interface is not as clean as in Java
-- Configuration Command (?)
+- Configuration Command (?), changing persistence strategy should transfer the information
 - Uninstall script(?)
