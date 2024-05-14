@@ -38,7 +38,6 @@
 ### When to stop
 - list_local_commands
 - Somehow use enum or constants for global variables, is there a way to define a constant based on the value property of a json, the script basically is guessing that in config there is a property called persistence
-- Create a second persistence implementation, some kind of lightweight sql db, like HyperSQL just to test the flexibility of the application. YAML or other formats could also be fun
 - Improve on visibility for the objects, usage of the interface is not as clean as in Java
-- Configuration Command (?), changing persistence strategy should transfer the information
+- Configuration Command (?), changing persistence strategy should transfer the information, kinda necessary for testing
 - Uninstall script(?)

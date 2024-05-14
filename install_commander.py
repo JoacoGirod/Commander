@@ -11,14 +11,14 @@ import os
 def main():
     # These are statically defined but input() could be used to configure them
     cwd = os.getcwd()
-    persistence_type = "YAML"
+    persistence_type = "SQLite"
     storing_file = cwd + "/persistence/implementations/" + persistence_type + "/"
 
     # Create config.json
     config_dictionary = {
         "type" : persistence_type,
         "path_to_custom_commands_history_directory" : storing_file,
-        "history_file_name" : "custom_commands" + ".yaml"
+        "history_file_name" : "custom_commands.db"
     }
     with open("config.json", 'w') as config_file:
         json.dump(config_dictionary, config_file, indent=4)
