@@ -12,10 +12,8 @@ def main():
         print("Usage: delete_command <command_name>")
         return
 
-    persistence_dao = PersistenceManager().get_implementation()
-
     # Delete command from the command file
-    if persistence_dao.delete_command(sys.argv[1]) == False:
+    if PersistenceManager().get_implementation().delete_command(sys.argv[1]) == False:
         print(f"""Error: Command '{sys.argv[1]}' was not found.""")
         return
 

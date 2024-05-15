@@ -5,8 +5,6 @@ from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from persistence.PersistenceManager import *
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.Command import Command
 from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
 
@@ -15,23 +13,23 @@ def main():
         print("Usage: add_command <command_name> <absolute_path_to_python_script>")
         return
 
-    persistence_dao = PersistenceManager().get_implementation()
-    command = Command(sys.argv[1], sys.argv[2], datetime.now().isoformat())
-
     # Create a bash script in /usr/local/bin
     bash_script_content =   f"""
                             #!/bin/bash
-                            python3 {command.path_to_script} "$@"
+                            python3 {sys.argv[2]} "$@"
                             """
-    bash_script_path =      f"/usr/local/bin/{command.command_name}"
+    bash_script_path =      f"/usr/local/bin/{sys.argv[1]}"
+
     with open(bash_script_path, 'w') as script_file:
         script_file.write(bash_script_content)
     os.chmod(bash_script_path, 0o755)
 
     # Add the new command to the command file
-    persistence_dao.add_command(command)
+    PersistenceManager().get_implementation().add_command(
+        Command(sys.argv[1], sys.argv[2], bash_script_path, datetime.now().isoformat())
+    )
 
-    print("Command '" + command.command_name + "' succesfully created.")
+    print("Command '" + sys.argv[1] + "' succesfully created.")
 
 if __name__ == "__main__":
     main()

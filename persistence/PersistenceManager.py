@@ -19,3 +19,15 @@ class PersistenceManager:
             persistence_strategy = CommandPersistenceDaoSQLiteImpl(self.config)
             persistence_strategy.create_table_if_not_exists()
             return persistence_strategy
+
+    # Should delete all traces of the implementation
+    # Includes:
+    # Bash scripts that the implementation was in charge of
+    # Persistence structures used
+    def reset_implementation():
+        return
+
+    # Should transfer all the information in one implementation to the other
+    # Shouldnt be that hard as the persistence modules all use dictionary returns, and dictionary inputs for creation
+    def shift_implementation():
+        return

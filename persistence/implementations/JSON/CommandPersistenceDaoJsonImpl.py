@@ -23,7 +23,7 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         for command in commands:
             if command.get("command_name") == command_to_find:
                 return command
-        return
+        return None
 
     # Override
     def delete_command(self, command_to_delete):

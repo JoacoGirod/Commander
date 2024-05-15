@@ -12,10 +12,8 @@ def main():
         print("Usage: update_command <command_name> <new_path>")
         return
 
-    persistence_dao = PersistenceManager().get_implementation()
-
-    # Add the new command to the command file
-    if persistence_dao.update_command(sys.argv[1], sys.argv[2]):
+    # Handle possible results of update_command
+    if PersistenceManager().get_implementation().update_command(sys.argv[1], sys.argv[2]):
         print("Command '" + sys.argv[1] + "' updated succesfully.")
     else:
         print(f"""Error: Command '{sys.argv[1]}' was not found.""")

@@ -12,10 +12,8 @@ def main():
         print("Usage: find_command <command_name>")
         return
 
-    persistence_dao = PersistenceManager().get_implementation()
-
-    # Functionality
-    maybe_command = persistence_dao.find_command(sys.argv[1])
+    # Handling possible results of the find_command()
+    maybe_command = PersistenceManager().get_implementation().find_command(sys.argv[1])
     if maybe_command == False or maybe_command == None:
         print(f"""Error: Command '{sys.argv[1]}' was not found.""")
         return

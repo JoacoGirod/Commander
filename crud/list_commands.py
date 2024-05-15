@@ -13,6 +13,7 @@ def main():
 
     persistence_dao = PersistenceManager().get_implementation()
 
+    # Handle '-a' flag
     if len(sys.argv) == 2:
         if  sys.argv[1] == '-a':
             command_list = '\n'.join([f"Command Name : '{command['command_name']}', Path To Script : '{command['path_to_script']}' || Date of Creation '{datetime.fromisoformat(command['creation_date'])}'" for command in persistence_dao.list_commands()])

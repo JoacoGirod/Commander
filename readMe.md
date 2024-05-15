@@ -35,9 +35,16 @@
     sudo delete_command <command_name>
 ```
 
-### When to stop
+### What am i to do?
+- Create change_implementation() [Persitence Manager]
+- Create reset_implementation() [Persitence Manager]
+- Create persistence section of run_tests.py
+- Create crud_tests
+- Create crud section of run_tests.py
+- Devise some tests!
+- Create uninstall_commander.py, should be quite easy with reset_implementation
 - list_local_commands
+
+### Random
 - Somehow use enum or constants for global variables, is there a way to define a constant based on the value property of a json, the script basically is guessing that in config there is a property called persistence
 - Improve on visibility for the objects, usage of the interface is not as clean as in Java
-- Configuration Command (?), changing persistence strategy should transfer the information, kinda necessary for testing
-- Uninstall script(?)
