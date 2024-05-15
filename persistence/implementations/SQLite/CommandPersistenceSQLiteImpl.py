@@ -1,11 +1,16 @@
 import sqlite3
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from ....models.enums.ConfigurationProperty import *
 from persistence.implementations.CommandPersistenceDao import *
 
 # SQLite implementation of CommandPersistenceDao
 class CommandPersistenceDaoSQLiteImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.db_file = persistence_configuration.get("path_to_custom_commands_history_directory") + persistence_configuration.get("storage_file_name")
+        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value) + "/" + persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_NAME.value)
         self.conn = sqlite3.connect(self.db_file)
         self.conn.row_factory = sqlite3.Row
         self.create_table_if_not_exists()

@@ -5,31 +5,20 @@
 # 3. Use add_command to add the other main commands
 # 4. Should somehow add to the history the add_command which would be omitted
 import subprocess
-import json
 import os
 import sys
+# Get the current working directory
+cwd = os.getcwd()
 
+# Append the parent directory of the current file to the sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from .configuration.ConfigurationManager import *
+
+# Import ConfigurationManager from the absolute path
+from configuration.ConfigurationManager import *
 
 def main():
-    # These are statically defined but input() could be used to configure them
-    # Options are JSON, YAML, SQLite
-    persistence_type = "JSON"
-    cwd = os.getcwd()
-    storing_file = cwd + "/persistence/implementations/" + persistence_type + "/"
-
-    ConfigurationManager().set_implementation(persistence_type, storing_file)
-
-    # Create config.json
-    config_dictionary = {
-        "type" : persistence_type,
-        "path_to_custom_commands_history_directory" : storing_file,
-        "history_file_name" : "custom_commands.db"
-    }
-
-    with open("config.json", 'w') as config_file:
-        json.dump(config_dictionary, config_file, indent=4)
+    # Create the config.json
+    ConfigurationManager().set_default_configuration()
 
     # Install Initial Commands
     for command in ["add_command", "delete_command", "find_command", "list_commands", "update_command"]:

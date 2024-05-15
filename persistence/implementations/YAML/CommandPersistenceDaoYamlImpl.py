@@ -1,10 +1,16 @@
 import yaml
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from ....models.enums.ConfigurationProperty import *
 from persistence.implementations.CommandPersistenceDao import CommandPersistenceDao
+from ....models.enums.CommandProperty import *
 
 class CommandPersistenceDaoYamlImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = persistence_configuration.get("path_to_custom_commands_history_directory") + persistence_configuration.get("storage_file_name")
+        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value) + "/" + persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_NAME.value)
 
     # Override
     def add_command(self, new_command):
@@ -20,7 +26,7 @@ class CommandPersistenceDaoYamlImpl(CommandPersistenceDao):
     def find_command(self, command_to_find):
         commands = self.load_commands()
         for command in commands:
-            if command.get("command_name") == command_to_find:
+            if command.get(CommandProperty.COMMAND_NAME.value) == command_to_find:
                 return command
         return None
 
@@ -28,7 +34,7 @@ class CommandPersistenceDaoYamlImpl(CommandPersistenceDao):
     def delete_command(self, command_to_delete):
         commands = self.load_commands()
         for command in commands:
-            if command.get("command_name") == command_to_delete:
+            if command.get(CommandProperty.COMMAND_NAME.value) == command_to_delete:
                 commands.remove(command)
                 self.save_commands(self.persistence_file, commands)
                 return True
@@ -38,8 +44,8 @@ class CommandPersistenceDaoYamlImpl(CommandPersistenceDao):
     def update_command(self, command_to_update, new_path):
         commands = self.load_commands()
         for command in commands:
-            if command.get("command_name") == command_to_update:
-                command["path_to_script"] = new_path
+            if command.get(CommandProperty.COMMAND_NAME.value) == command_to_update:
+                command[CommandProperty.PATH_TO_PYTHON_SCRIPT.value] = new_path
                 self.save_commands(self.persistence_file, commands)
                 return True
         return False

@@ -1,8 +1,10 @@
 import unittest
 import datetime
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ...models.Command import *
 from ...persistence.PersistenceManager import *
-
+from ...models.enums.CommandProperty import *
 # another script should change configuration and run this test for each implementation (JSON, YAML, SQLite)
 # the test should always test the same functionalities that the interface contract obliges to
 
@@ -32,9 +34,9 @@ class TestPersistenceImplementations(unittest.TestCase):
         final_length = len(self.persistence_implementation.list_commands())
         self.assertEqual(final_length, initial_length + 1)
         created_command = self.persistence_implementation.find_command(self.command_name)
-        self.assertEqual(self.command_name, created_command.get("command_name"))
-        self.assertEqual(self.command_path, created_command.get("path_to_script"))
-        self.assertEqual(self.command_date_of_creation, created_command.get("creation_date"))
+        self.assertEqual(self.command_name, created_command.get(CommandProperty.COMMAND_NAME.value))
+        self.assertEqual(self.command_path, created_command.get(CommandProperty.PATH_TO_PYTHON_SCRIPT.value))
+        self.assertEqual(self.command_date_of_creation, created_command.get(CommandProperty.CREATION_DATE.value))
 
     def test_fail_find_command(self):
         # Evaluation
