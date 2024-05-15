@@ -1,10 +1,15 @@
 import unittest
 import datetime
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from ...models.Command import *
-from ...persistence.PersistenceManager import *
-from ...models.enums.CommandProperty import *
+import sys
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
+from models.Command import *
+from persistence.PersistenceManager import *
+from models.enums.CommandProperty import *
 # another script should change configuration and run this test for each implementation (JSON, YAML, SQLite)
 # the test should always test the same functionalities that the interface contract obliges to
 

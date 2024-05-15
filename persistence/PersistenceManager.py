@@ -1,20 +1,20 @@
-import json
-import os
 import sys
+import os
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 from persistence.PersistenceManager import *
 from models.Command import Command
 from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
-from .implementations.JSON.CommandPersistenceDaoJsonImpl import *
-from .implementations.YAML.CommandPersistenceDaoYamlImpl import *
-from .implementations.SQLite.CommandPersistenceSQLiteImpl import *
-from ..configuration.ConfigurationManager import *
-from ..models.enums.PersistenceImplementation import *
+from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import *
+from persistence.implementations.YAML.CommandPersistenceDaoYamlImpl import *
+from persistence.implementations.SQLite.CommandPersistenceSQLiteImpl import *
+from configuration.ConfigurationManager import *
+from models.enums.PersistenceImplementation import *
 
 class PersistenceManager:
     def __init__(self):
-        self.config = ConfigurationManager.get_configuration()
+        self.config = ConfigurationManager().get_configuration()
 
     def get_implementation(self):
         if (self.config.get(ConfigurationProperty.IMPLEMENTATION_TYPE.value) == PersistenceImplementation.JSON.value):

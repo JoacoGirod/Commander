@@ -1,18 +1,22 @@
 import json
 import os
-import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
 from persistence.implementations.CommandPersistenceDao import *
-from ....configuration.ConfigurationManager import *
-from ....models.enums.CommandProperty import *
-from ....models.enums.ConfigurationProperty import *
+from configuration.ConfigurationManager import *
+from models.enums.CommandProperty import *
+from models.enums.ConfigurationProperty import *
 
 # Implementing the interface
 class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value) + "/" + persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_NAME.value)
+        self.persistence_file = ConfigurationManager().get_configuration().get(ConfigurationProperty.STORAGE_FILE_LOCATION.value)
 
     # Override
     def add_command(self, new_command):

@@ -6,19 +6,20 @@
 # 4. Should somehow add to the history the add_command which would be omitted
 import subprocess
 import os
+
 import sys
-# Get the current working directory
-cwd = os.getcwd()
+import os
 
-# Append the parent directory of the current file to the sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 
-# Import ConfigurationManager from the absolute path
 from configuration.ConfigurationManager import *
 
 def main():
     # Create the config.json
     ConfigurationManager().set_default_configuration()
+
+    cwd = os.getcwd()
 
     # Install Initial Commands
     for command in ["add_command", "delete_command", "find_command", "list_commands", "update_command"]:

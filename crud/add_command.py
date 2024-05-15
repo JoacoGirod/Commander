@@ -2,10 +2,14 @@ import sys
 import os
 from datetime import datetime
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from persistence.PersistenceManager import *
+import sys
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
 from models.Command import Command
-from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
+from persistence.PersistenceManager import *
 
 def main():
     if len(sys.argv) != 3:

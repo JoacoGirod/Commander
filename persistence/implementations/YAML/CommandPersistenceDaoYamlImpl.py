@@ -1,11 +1,14 @@
 import yaml
+
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from ....models.enums.ConfigurationProperty import *
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
+from models.enums.ConfigurationProperty import *
 from persistence.implementations.CommandPersistenceDao import CommandPersistenceDao
-from ....models.enums.CommandProperty import *
+from models.enums.CommandProperty import *
 
 class CommandPersistenceDaoYamlImpl(CommandPersistenceDao):
 
