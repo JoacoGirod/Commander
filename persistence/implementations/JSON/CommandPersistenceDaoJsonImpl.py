@@ -1,11 +1,12 @@
 import json
+import os
 from persistence.implementations.CommandPersistenceDao import *
-
+from ....configuration.ConfigurationManager import *
 # Implementing the interface
 class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = persistence_configuration.get("path_to_custom_commands_history_directory") + persistence_configuration.get("history_file_name")
+        self.persistence_file = persistence_configuration.get("path_to_custom_commands_history_directory") + persistence_configuration.get("storage_file_name")
 
     # Override
     def add_command(self, new_command):
@@ -40,10 +41,17 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         commands = self.load_commands()
         for command in commands:
             if command.get("command_name") == command_to_update:
-                command["path_to_script"] = new_path
+                command["path_to_python_script"] = new_path
                 self.save_commands(self.persistence_file, commands)
                 return True
         return False
+
+    # Override
+    def reset_implementation(self):
+        for command in self.load_commands():
+            os.remove(command.get("path_to_bash_script"))
+        os.remove(ConfigurationManager.get_storage_file_location())
+        return
 
     ### Utility Methods
     def load_commands(self):

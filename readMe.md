@@ -35,15 +35,25 @@
     sudo delete_command <command_name>
 ```
 
-### What am i to do?
-- Create change_implementation() [Persitence Manager]
-- Create reset_implementation() [Persitence Manager]
+### Micro Management of First Task
+- Fully Implement the Configuration Manager
+- Extends its usage to the persistence manager
+- Minimize decoupling between implementations and configurations, should implementations have a link to the config file or should they not?
+- Implement and revise the reset_implementation [JSON, YAML, SQLITE]
+
+### What am i to do? Macro Management
+- Implement reset_implementation() on the 3 implementations
+- Finish shift_implementation() [Persitence Manager]
 - Create persistence section of run_tests.py
 - Create crud_tests
 - Create crud section of run_tests.py
-- Devise some tests!
+- Use the Tests!
+
 - Create uninstall_commander.py, should be quite easy with reset_implementation
 - list_local_commands
+- get_current_configuration
+- Improve interace contarct, return types and etc, whats the best value to return in each situation False? None?, is there a way to type the language kind of like a TypeScript
+- Persistence Manager and Configuration Manager should be singletons
 
 ### Random
 - Somehow use enum or constants for global variables, is there a way to define a constant based on the value property of a json, the script basically is guessing that in config there is a property called persistence

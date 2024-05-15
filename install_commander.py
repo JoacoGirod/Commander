@@ -7,12 +7,19 @@
 import subprocess
 import json
 import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from .configuration.ConfigurationManager import *
 
 def main():
     # These are statically defined but input() could be used to configure them
+    # Options are JSON, YAML, SQLite
+    persistence_type = "JSON"
     cwd = os.getcwd()
-    persistence_type = "SQLite"
     storing_file = cwd + "/persistence/implementations/" + persistence_type + "/"
+
+    ConfigurationManager().set_implementation(persistence_type, storing_file)
 
     # Create config.json
     config_dictionary = {
@@ -20,6 +27,7 @@ def main():
         "path_to_custom_commands_history_directory" : storing_file,
         "history_file_name" : "custom_commands.db"
     }
+
     with open("config.json", 'w') as config_file:
         json.dump(config_dictionary, config_file, indent=4)
 
