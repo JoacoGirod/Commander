@@ -22,7 +22,7 @@ def main():
     cwd = os.getcwd()
 
     # Install Initial Commands
-    for command in ["add_command", "delete_command", "find_command", "list_commands", "update_command"]:
+    for command in ["add_command", "delete_command", "find_command", "list_commands", "update_command", "erase_all_commands"]:
         result = subprocess.run(
              f"sudo python3 ./crud/add_command.py {command} {cwd}/crud/{command}.py"
              , shell=True, capture_output=True, text=True, cwd=cwd
@@ -33,7 +33,7 @@ def main():
             print(f"Error installing {command}:")
             print(result.stderr)
 
-    print("\nInfo : Using add_command, update_command and delete_command requires sudo privileges.")
+    print("\nInfo : Using add_command, update_command, delete_command and erase_all_commands requires sudo privileges.")
 
 if __name__ == "__main__":
     main()

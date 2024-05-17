@@ -1,5 +1,4 @@
 import sqlite3
-
 import sys
 import os
 
@@ -8,13 +7,15 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from models.enums.ConfigurationProperty import *
 from persistence.implementations.CommandPersistenceDao import *
+from models.enums.CommandProperty import *
+from models.Command import Command
 
 # SQLite implementation of CommandPersistenceDao
 class CommandPersistenceDaoSQLiteImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value) + "/" + persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_NAME.value)
-        self.conn = sqlite3.connect(self.db_file)
+        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value)
+        self.conn = sqlite3.connect(self.persistence_file)
         self.conn.row_factory = sqlite3.Row
         self.create_table_if_not_exists()
 
@@ -22,37 +23,54 @@ class CommandPersistenceDaoSQLiteImpl(CommandPersistenceDao):
     def add_command(self, new_command):
         cursor = self.conn.cursor()
         cursor.execute("""
-            INSERT INTO commands (command_name, path_to_script, creation_date)
-            VALUES (?, ?, ?)
-        """, (new_command.command_name, new_command.path_to_script, new_command.creation_date))
+            INSERT INTO commands (command_name, path_to_python_script, path_to_bash_script, creation_date)
+            VALUES (?, ?, ?, ?)
+        """, (new_command.command_name, new_command.path_to_python_script, new_command.path_to_bash_script, new_command.creation_date))
         self.conn.commit()
 
     # Override
     def list_commands(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM commands")
-        return [dict(row) for row in cursor.fetchall()]
+        return [self.row_to_command(row) for row in cursor.fetchall()]
 
     # Override
     def find_command(self, command_to_find):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM commands WHERE command_name=?", (command_to_find,))
-        return dict(cursor.fetchone())
+        row = cursor.fetchone()
+        if row:
+            return self.row_to_command(row)
+        return None
 
     # Override
     def delete_command(self, command_to_delete):
         cursor = self.conn.cursor()
         cursor.execute("DELETE FROM commands WHERE command_name=?", (command_to_delete,))
         self.conn.commit()
+        return cursor.rowcount > 0
 
     # Override
-    def update_command(self, command_to_update, new_path):
+    def update_command(self, command_to_update, new_path_to_python_script):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE commands SET path_to_script=? WHERE command_name=?", (new_path, command_to_update))
+        cursor.execute("""
+            UPDATE commands
+            SET path_to_python_script=?
+            WHERE command_name=?
+        """, (new_path_to_python_script, command_to_update))
         self.conn.commit()
+        return cursor.rowcount > 0
+
 
     # Override
-    def reset_implementation():
+    def reset_implementation(self):
+        # Close the connection
+        self.conn.close()
+        # Remove the database file
+        try:
+            os.remove(self.persistence_file)
+        except FileNotFoundError:
+            pass
         return
 
     ### Utility Methods
@@ -61,11 +79,20 @@ class CommandPersistenceDaoSQLiteImpl(CommandPersistenceDao):
             CREATE TABLE IF NOT EXISTS commands (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 command_name TEXT,
-                path_to_script TEXT,
+                path_to_python_script TEXT,
+                path_to_bash_script TEXT,
                 creation_date TEXT
             );
         """
         self.conn.execute(create_table_sql)
+
+    def row_to_command(self, row):
+        return Command(
+            command_name=row[CommandProperty.COMMAND_NAME.value],
+            path_to_python_script=row[CommandProperty.PATH_TO_PYTHON_SCRIPT.value],
+            path_to_bash_script=row[CommandProperty.PATH_TO_BASH_SCRIPT.value],
+            creation_date=row[CommandProperty.CREATION_DATE.value]
+        )
 
     def __del__(self):
         self.conn.close()

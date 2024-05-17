@@ -40,12 +40,13 @@ class PersistenceManager:
     # Should transfer all the information in one implementation to the other
     # Shouldnt be that hard as the persistence modules all use dictionary returns, and dictionary inputs for creation
     def shift_implementation(self, new_implementation):
+        initial_configuration = ConfigurationManager().get_configuration()
         initial_implementation = self.get_implementation()
-        ConfigurationManager.set_configuration(new_implementation)
+        ConfigurationManager().set_configuration(new_implementation, initial_configuration.get(ConfigurationProperty.STORAGE_FILE_NAME.value), initial_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value))
         final_implementation = self.get_implementation()
 
-        for command_names in initial_implementation.list_commands():
-            command = initial_implementation.find_command(command_names)
+        for command_name in initial_implementation.list_commands():
+            command = initial_implementation.find_command(command_name.command_name)
             final_implementation.add_command(command)
 
-        initial_implementation.reset_
+        initial_implementation.reset_implementation()

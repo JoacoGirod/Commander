@@ -11,7 +11,7 @@ class CommandPersistenceDao(ABC):
         pass
 
     @abstractmethod
-    def find_command():
+    def find_command(command_name):
         pass
 
     @abstractmethod
@@ -19,7 +19,7 @@ class CommandPersistenceDao(ABC):
         pass
 
     @abstractmethod
-    def update_command(command_to_update):
+    def update_command(command_to_update, path):
         pass
 
     @abstractmethod

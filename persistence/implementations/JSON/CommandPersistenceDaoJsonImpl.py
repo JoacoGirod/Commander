@@ -11,12 +11,14 @@ from persistence.implementations.CommandPersistenceDao import *
 from configuration.ConfigurationManager import *
 from models.enums.CommandProperty import *
 from models.enums.ConfigurationProperty import *
+from models.enums.FilePermission import *
+from models.Command import Command
 
 # Implementing the interface
 class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = ConfigurationManager().get_configuration().get(ConfigurationProperty.STORAGE_FILE_LOCATION.value)
+        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value)
 
     # Override
     def add_command(self, new_command):
@@ -26,14 +28,28 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     # Override
     def list_commands(self):
-        return self.load_commands()
+        commands = self.load_commands()
+        command_list = []
+        for command_data in commands:
+            command_list.append(Command(
+                command_name=command_data.get(CommandProperty.COMMAND_NAME.value),
+                path_to_python_script=command_data.get(CommandProperty.PATH_TO_PYTHON_SCRIPT.value),
+                path_to_bash_script=command_data.get(CommandProperty.PATH_TO_BASH_SCRIPT.value),
+                creation_date=command_data.get(CommandProperty.CREATION_DATE.value)
+            ))
+        return command_list
 
     # Override
     def find_command(self, command_to_find):
         commands = self.load_commands()
         for command in commands:
             if command.get(CommandProperty.COMMAND_NAME.value) == command_to_find:
-                return command
+                return Command(
+                    command_name=command.get(CommandProperty.COMMAND_NAME.value),
+                    path_to_python_script=command.get(CommandProperty.PATH_TO_PYTHON_SCRIPT.value),
+                    path_to_bash_script=command.get(CommandProperty.PATH_TO_BASH_SCRIPT.value),
+                    creation_date=command.get(CommandProperty.CREATION_DATE.value)
+                )
         return None
 
     # Override
@@ -58,15 +74,23 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     # Override
     def reset_implementation(self):
+        # Remove files created in /usr/local/bin
         for command in self.load_commands():
-            os.remove(command.get(CommandProperty.PATH_TO_BASH_SCRIPT.value))
-        os.remove(ConfigurationManager.get_storage_file_location())
+            try:
+                os.remove(command.get(CommandProperty.PATH_TO_BASH_SCRIPT.value))
+            except FileNotFoundError:
+                pass
+        # Remove storage File
+        try:
+            os.remove(ConfigurationManager().get_configuration().get(ConfigurationProperty.STORAGE_FILE_LOCATION.value))
+        except FileNotFoundError:
+            pass
         return
 
     ### Utility Methods
     def load_commands(self):
         try:
-            with open(self.persistence_file, 'r') as file:
+            with open(self.persistence_file, FilePermission.READ.value) as file:
                 file_content = file.read()
                 if not file_content:
                     return []
@@ -77,5 +101,5 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
 
     def save_commands(self, filename, commands):
-        with open(filename, 'w') as file:
+        with open(filename, FilePermission.WRITE.value) as file:
             json.dump(commands, file, indent=4)

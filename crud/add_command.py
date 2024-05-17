@@ -9,6 +9,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from models.Command import Command
+from models.enums.FilePermission import *
 from persistence.PersistenceManager import *
 
 def main():
@@ -23,14 +24,19 @@ def main():
                             """
     bash_script_path =      f"/usr/local/bin/{sys.argv[1]}"
 
-    with open(bash_script_path, 'w') as script_file:
+    with open(bash_script_path, FilePermission.WRITE.value) as script_file:
         script_file.write(bash_script_content)
     os.chmod(bash_script_path, 0o755)
 
     # Add the new command to the command file
-    PersistenceManager().get_implementation().add_command(
-        Command(sys.argv[1], sys.argv[2], bash_script_path, datetime.now().isoformat())
+    datetimeiso = datetime.now().isoformat()
+    command = Command(
+        sys.argv[1],
+        sys.argv[2],
+        bash_script_path,
+        datetimeiso
     )
+    PersistenceManager().get_implementation().add_command(command)
 
     print("Command '" + sys.argv[1] + "' succesfully created.")
 

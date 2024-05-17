@@ -42,7 +42,6 @@
 - Implement and revise the reset_implementation [JSON, YAML, SQLITE]
 
 ### What am i to do? Macro Management
-- Implement reset_implementation() on the 3 implementations
 - Finish shift_implementation() [Persitence Manager]
 - Create persistence section of run_tests.py
 - Create crud_tests

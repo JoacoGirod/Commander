@@ -23,9 +23,10 @@ def main():
         print(f"""Error: Command '{sys.argv[1]}' was not found.""")
         return
 
-    print(f"""Command Name \t: {maybe_command.get(CommandProperty.COMMAND_NAME.value)}\n""" +
-          f"""Path to Script \t: {maybe_command.get(CommandProperty.PATH_TO_PYTHON_SCRIPT.value)}\n""" +
-          f"""Creation Date \t: {datetime.fromisoformat(maybe_command.get(CommandProperty.CREATION_DATE.value))}""")
+    print(f"""Command Name \t\t: {maybe_command.command_name}\n""" +
+          f"""Path to Python Script \t: {maybe_command.path_to_python_script}\n""" +
+          f"""Path to Bash Script \t: {maybe_command.path_to_bash_script}\n""" +
+          f"""Creation Date \t\t: {datetime.fromisoformat(maybe_command.creation_date)}""")
 
 if __name__ == "__main__":
     main()
