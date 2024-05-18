@@ -16,10 +16,17 @@ def main():
         return
 
     # Handle possible results of update_command
-    if PersistenceManager().get_implementation().update_command(sys.argv[1], sys.argv[2]):
-        print("Command '" + sys.argv[1] + "' updated succesfully.")
-    else:
+    try:
+        if PersistenceManager().get_implementation().update_command(sys.argv[1], sys.argv[2]):
+            print("Command '" + sys.argv[1] + "' updated succesfully.")
+        else:
+            print(f"""Error: Command '{sys.argv[1]}' was not found.""")
+    except PermissionError:
+        print("This command requires sudo privileges.")
+        return
+    except FileNotFoundError:
         print(f"""Error: Command '{sys.argv[1]}' was not found.""")
+        return
 
 if __name__ == "__main__":
     main()

@@ -24,9 +24,13 @@ def main():
                             """
     bash_script_path =      f"/usr/local/bin/{sys.argv[1]}"
 
-    with open(bash_script_path, FilePermission.WRITE.value) as script_file:
-        script_file.write(bash_script_content)
-    os.chmod(bash_script_path, 0o755)
+    try:
+        with open(bash_script_path, FilePermission.WRITE.value) as script_file:
+            script_file.write(bash_script_content)
+        os.chmod(bash_script_path, 0o755)
+    except PermissionError:
+        print("This command requires sudo privileges.")
+        return
 
     # Add the new command to the command file
     datetimeiso = datetime.now().isoformat()

@@ -1,8 +1,6 @@
 import json
 import os
-
 import sys
-import os
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -10,35 +8,37 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 from models.enums.ConfigurationDefault import *
 from models.enums.ConfigurationProperty import *
 from models.enums.FilePermission import *
+from models.Configuration import Configuration
 
 class ConfigurationManager:
+    _instance = None
 
-    def __init__(self):
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(ConfigurationManager, cls).__new__(cls, *args, **kwargs)
+            cls._instance.__initialize()
+        return cls._instance
+
+    def __initialize(self):
         pass
 
     def set_default_configuration(self):
-        config_dictionary = {
-            ConfigurationProperty.IMPLEMENTATION_TYPE.value : ConfigurationDefault.DEFAULT_IMPLEMENTATION_TYPE.value,
-            ConfigurationProperty.STORAGE_FILE_NAME.value : ConfigurationDefault.DEFAULT_STORAGE_FILE_NAME.value,
-            ConfigurationProperty.STORAGE_FILE_LOCATION.value : os.getcwd() + ConfigurationDefault.BASE_DIRECTORY.value + ConfigurationDefault.DEFAULT_IMPLEMENTATION_TYPE.value + "/" + ConfigurationDefault.DEFAULT_STORAGE_FILE_NAME.value
-        }
-
         with open(ConfigurationDefault.CONFIG_FILE_NAME.value, FilePermission.WRITE.value) as config_file:
-            json.dump(config_dictionary, config_file, indent=4)
+            json.dump(Configuration.default_instance().get_instance_as_dictionary(), config_file, indent=4)
 
-    def set_configuration(self, implementation, storage_file_name, storage_file_location):
-        config_dictionary = {
-            ConfigurationProperty.IMPLEMENTATION_TYPE.value : implementation,
-            ConfigurationProperty.STORAGE_FILE_NAME.value : storage_file_name,
-            ConfigurationProperty.STORAGE_FILE_LOCATION.value : storage_file_location
-        }
-
+    def set_configuration(self, implementation, storage_file_name, storage_file_dir, storage_file_path):
         with open(ConfigurationDefault.CONFIG_FILE_NAME.value, FilePermission.WRITE.value) as config_file:
-            json.dump(config_dictionary, config_file, indent=4)
+            json.dump(Configuration(implementation, storage_file_name, storage_file_dir, storage_file_path).get_instance_as_dictionary(), config_file, indent=4)
 
     def get_configuration(self):
         with open(ConfigurationDefault.CONFIG_FILE_NAME.value, FilePermission.READ.value) as config_file:
-            return json.load(config_file)
+            config_dict = json.load(config_file)
+            return Configuration(
+                config_dict.get(ConfigurationProperty.IMPLEMENTATION_TYPE.value),
+                config_dict.get(ConfigurationProperty.STORAGE_FILE_NAME.value),
+                config_dict.get(ConfigurationProperty.STORAGE_FILE_DIR.value),
+                config_dict.get(ConfigurationProperty.STORAGE_FILE_PATH.value),
+            )
 
     def delete_configuration(self):
         os.remove(ConfigurationDefault.CONFIG_FILE_NAME.value)

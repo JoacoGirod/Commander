@@ -16,12 +16,11 @@ def main():
     if len(sys.argv) != 1:
         print("Usage: erase_all_commands")
         return
-
-    if input("This command will delete all the bash files that were created and the persistence strategy, are you sure? Y/n\n") != "Y":
+    try:
+        PersistenceManager().get_implementation().reset_implementation()
+    except PermissionError:
+        print("This command requires sudo privileges.")
         return
-
-
-    PersistenceManager().get_implementation().reset_implementation()
     ConfigurationManager().delete_configuration()
 
     print("Erasure was succesful.")

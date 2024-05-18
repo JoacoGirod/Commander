@@ -18,7 +18,7 @@ from models.Command import Command
 class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value)
+        self.persistence_file = persistence_configuration.storage_file_path
 
     # Override
     def add_command(self, new_command):
@@ -82,7 +82,7 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
                 pass
         # Remove storage File
         try:
-            os.remove(ConfigurationManager().get_configuration().get(ConfigurationProperty.STORAGE_FILE_LOCATION.value))
+            os.remove(ConfigurationManager().get_configuration().storage_file_path)
         except FileNotFoundError:
             pass
         return

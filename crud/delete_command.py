@@ -15,13 +15,24 @@ def main():
         print("Usage: delete_command <command_name>")
         return
 
-    # Delete command from the command file
-    if PersistenceManager().get_implementation().delete_command(sys.argv[1]) == False:
+    # Delete bash script
+    try:
+        os.remove(f"/usr/local/bin/{sys.argv[1]}")
+    except PermissionError:
+        print("This command requires sudo privileges.")
+        return
+    except FileNotFoundError:
         print(f"""Error: Command '{sys.argv[1]}' was not found.""")
         return
 
-    # Delete bash script
-    os.remove(f"/usr/local/bin/{sys.argv[1]}")
+    # Delete command from the command file
+    try:
+        PersistenceManager().get_implementation().delete_command(sys.argv[1])
+    except FileNotFoundError:
+        print(f"""Error: Command '{sys.argv[1]}' was not found.""")
+        return
+
+
 
     print("Command '" + sys.argv[1] + "' succesfully deleted.")
 

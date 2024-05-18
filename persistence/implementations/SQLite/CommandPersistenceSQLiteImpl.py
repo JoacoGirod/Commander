@@ -14,7 +14,7 @@ from models.Command import Command
 class CommandPersistenceDaoSQLiteImpl(CommandPersistenceDao):
 
     def __init__(self, persistence_configuration):
-        self.persistence_file = persistence_configuration.get(ConfigurationProperty.STORAGE_FILE_LOCATION.value)
+        self.persistence_file = persistence_configuration.storage_file_path
         self.conn = sqlite3.connect(self.persistence_file)
         self.conn.row_factory = sqlite3.Row
         self.create_table_if_not_exists()

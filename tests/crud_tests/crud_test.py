@@ -8,6 +8,7 @@ PARENT_DIR = os.path.dirname(SCRIPT_DIR)
 ROOT_DIR = os.path.dirname(PARENT_DIR)
 sys.path.append(ROOT_DIR)
 
+from pathlib import Path
 from persistence.PersistenceManager import *
 from configuration.ConfigurationManager import *
 from crud.add_command import main as add_command
@@ -37,6 +38,22 @@ class TestCrud(unittest.TestCase):
     def test_end_to_end_crud(self):
         # list_commands
         completed_process = subprocess.run(["python3", "crud/list_commands.py"], capture_output=True, text=True)
+        print("list_commands output:")
+        print(completed_process.stdout)
+        print("list_commands errors:")
+        print(completed_process.stderr)
+        self.assertEqual(completed_process.returncode, 0)
+
+        # get_current_configuration
+        completed_process = subprocess.run(["python3", "crud/get_current_configuration.py"], capture_output=True, text=True)
+        print("list_commands output:")
+        print(completed_process.stdout)
+        print("list_commands errors:")
+        print(completed_process.stderr)
+        self.assertEqual(completed_process.returncode, 0)
+
+        # list_local_commands
+        completed_process = subprocess.run(["python3", "crud/list_local_commands.py"], capture_output=True, text=True)
         print("list_commands output:")
         print(completed_process.stdout)
         print("list_commands errors:")
