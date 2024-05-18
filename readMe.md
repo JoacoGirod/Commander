@@ -74,3 +74,9 @@ And later use it whenever we find it necesarry by doing
 ```bash
     sum_arguments 45 54 34 1
 ```
+
+### Trials & Tribulations
+This project should have been done with a strongly typed language which works much better with the layered approach and facilitated bug detection however the intention was to practice python so no regrets on that side
+Testing is really poor, the unit tests are not idempotent to the application and fail cases are not tested, maybe a testing library could have made things easier but the standard python unittest was kind of lackluster.
+The attempt to make the application as configurable as possible was only achieved to a certain degree, I should have approached the application as a monolith, allowing for shifts in the persistence strategy is an unwanted feature, even though I wanted to test the flexibility of the design it is not really required by the product.
+As every piece of code there are some bugs im not aware of and errors that could be managed better, so I may have to keep updating the code.
