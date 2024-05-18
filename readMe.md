@@ -3,10 +3,14 @@ A group of python scripts that facilitate the creation of bash commands that can
 
 ### How to Install
 ```bash
-    git clone https://github.com/JoacoGirod/commander
+    git clone https://github.com/JoacoGirod/Commander
 ```
 ```bash
-    cd commander
+    cd Commander
+```
+Here you can run the tests, which are later described as poor, they can only be run when located in this folder and can't be run once the application has been installed.
+```bash
+    sudo python3 run_tests.py
 ```
 ```bash
     sudo python3 install_commander.py
