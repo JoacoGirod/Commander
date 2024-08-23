@@ -88,8 +88,10 @@ As every piece of code there are some bugs im not aware of and errors that could
 
 
 # Issues
-- Transition into bash scripts, much more powerful than python scripts
-- Leave python script manipulation but make a copy of the file reference, better ux
-- Make a a copy of the scripts
-- Transition app files into /home/.Commander
-- Fix typo persistence instead of persistance
+- Fix Type
+- Transition app files like configs, persitance files, into home/.Commander
+- erase_all_commands should also delete the bashes in /usr/bin/local
+- update_command should update the command name in the /usr/bin/local and the DB
+- revive other implementations
+- Python Keep Alive
+    - For user python scripts copy them into a folder

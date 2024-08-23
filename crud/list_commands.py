@@ -17,7 +17,7 @@ def main():
     # Handle '-a' flag
     if len(sys.argv) == 2:
         if  sys.argv[1] == '-a':
-            command_list = '\n'.join([f"Command Name : '{command.command_name}', Path To Bash Script : '{command.path_to_bash_script}', Path To Python Script : '{command.path_to_python_or_bash_script}', Date of Creation '{datetime.fromisoformat(command.creation_date)}'" for command in persistence_dao.list_commands()])
+            command_list = '\n'.join([f"Command Name : '{command.command_name}', Path To Bash Script : '{command.path_to_bash_script}', Date of Creation '{datetime.fromisoformat(command.creation_date)}'" for command in persistence_dao.list_commands()])
     else:
         command_list = '\n'.join([f"{cmd.command_name}" for cmd in persistence_dao.list_commands()])
 

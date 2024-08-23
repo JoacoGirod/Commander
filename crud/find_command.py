@@ -24,8 +24,7 @@ def main():
         return
 
     print(f"Command Name \t\t: {maybe_command.command_name}\n" +
-          f"Path to Bash/Python Script \t: {maybe_command.path_to_python_or_bash_script}\n" +
-          f"Path to Caller Bash Script \t: {maybe_command.path_to_bash_script}\n" +
+          f"Path to Bash Script \t: '{maybe_command.path_to_bash_script}\n'" +
           f"Creation Date \t\t: {datetime.fromisoformat(maybe_command.creation_date)}")
 
 if __name__ == "__main__":

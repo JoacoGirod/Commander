@@ -24,7 +24,7 @@ def main():
     # Install Initial Commands
     for command in ["add_command", "delete_command", "find_command", "list_commands", "update_command", "erase_all_commands", "get_current_configuration", "list_local_commands"]:
         result = subprocess.run(
-             f"sudo python3 ./crud/add_command.py {command} {cwd}/crud/{command}.py"
+             f"sudo python3 ./crud/add_python_command.py {command} {cwd}/crud/{command}.py"
              , shell=True, capture_output=True, text=True, cwd=cwd
         )
         if result.returncode == 0:

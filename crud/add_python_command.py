@@ -25,11 +25,11 @@ def main():
     # Reference the copy instead of the user script, so he can move it or delete it if he pleases
 
     # Create a bash script in /usr/local/bin that simply calls the python file
+    bash_script_path =      f"/usr/local/bin/{command_name}"
     bash_script_content =   f"""
                             #!/bin/bash
                             python3 {path_to_python_script} "$@"
                             """
-    bash_script_path =      f"/usr/local/bin/{path_to_python_script}"
 
     try:
         with open(bash_script_path, FilePermission.WRITE.value) as script_file:
