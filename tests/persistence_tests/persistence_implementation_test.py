@@ -42,7 +42,7 @@ class TestPersistenceImplementation(unittest.TestCase):
         self.assertEqual(final_length, initial_length + 1)
         created_command = self.persistence_implementation.find_command(self.command_name)
         self.assertEqual(self.command_name, created_command.command_name)
-        self.assertEqual(self.python_command_path, created_command.path_to_python_script)
+        self.assertEqual(self.python_command_path, created_command.path_to_python_or_bash_script)
         self.assertEqual(self.bash_command_path, created_command.path_to_bash_script)
         self.assertEqual(self.command_date_of_creation, created_command.creation_date)
 

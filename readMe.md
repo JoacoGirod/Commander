@@ -8,10 +8,11 @@ A group of python scripts that facilitate the creation of bash commands that can
 ```bash
     cd Commander
 ```
-Here you can run the tests, which are later described as poor, they can only be run when located in this folder and can't be run once the application has been installed.
+Here you can run the tests, which are later described as poor, they can only be run when located in this folder and can't be run once the application has been installed, not adequately idempotent nor unitary.
 ```bash
     sudo python3 run_tests.py
 ```
+This command installs
 ```bash
     sudo python3 install_commander.py
 ```
@@ -84,3 +85,11 @@ This project should have been done with a strongly typed language which works mu
 Testing is really poor, the unit tests are not idempotent to the application and fail cases are not tested, maybe a testing library could have made things easier but the standard python unittest was kind of lackluster.
 The attempt to make the application as configurable as possible was only achieved to a certain degree, I should have approached the application as a monolith, allowing for shifts in the persistence strategy is an unwanted feature, even though I wanted to test the flexibility of the design it is not really required by the product.
 As every piece of code there are some bugs im not aware of and errors that could be managed better, so I may have to keep updating the code.
+
+
+# Issues
+- Transition into bash scripts, much more powerful than python scripts
+- Leave python script manipulation but make a copy of the file reference, better ux
+- Make a a copy of the scripts
+- Transition app files into /home/.Commander
+- Fix typo persistence instead of persistance

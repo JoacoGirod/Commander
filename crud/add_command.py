@@ -1,7 +1,7 @@
 import sys
 import os
 from datetime import datetime
-
+import shutil
 import sys
 import os
 
@@ -14,20 +14,25 @@ from persistence.PersistenceManager import *
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: add_command <command_name> <absolute_path_to_python_script>")
+        print("Usage: add_command <command_name> <path_to_script>")
         return
 
-    # Create a bash script in /usr/local/bin
-    bash_script_content =   f"""
-                            #!/bin/bash
-                            python3 {sys.argv[2]} "$@"
-                            """
-    bash_script_path =      f"/usr/local/bin/{sys.argv[1]}"
+    command_name = sys.argv[1]
+    path_to_script = sys.argv[2]
+    path_to_bin_script = f"/usr/local/bin/{command_name}"
 
     try:
-        with open(bash_script_path, FilePermission.WRITE.value) as script_file:
-            script_file.write(bash_script_content)
-        os.chmod(bash_script_path, 0o755)
+        if not os.path.exists(path_to_script):
+            print(f"The script '{path_to_script}' does not exist.")
+            return
+
+        # Copy user script to bin directory
+        with open(path_to_script, FilePermission.READ.value) as user_script:
+            with open(path_to_bin_script, FilePermission.WRITE.value) as bin_script:
+                shutil.copyfileobj(user_script, bin_script)
+
+        os.chmod(path_to_bin_script, 0o755)
+
     except PermissionError:
         print("This command requires sudo privileges.")
         return
@@ -35,9 +40,8 @@ def main():
     # Add the new command to the command file
     datetimeiso = datetime.now().isoformat()
     command = Command(
-        sys.argv[1],
-        sys.argv[2],
-        bash_script_path,
+        command_name,
+        path_to_bin_script,
         datetimeiso
     )
     PersistenceManager().get_implementation().add_command(command)

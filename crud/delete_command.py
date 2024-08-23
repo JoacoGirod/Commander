@@ -22,19 +22,19 @@ def main():
         print("This command requires sudo privileges.")
         return
     except FileNotFoundError:
-        print(f"""Error: Command '{sys.argv[1]}' was not found.""")
+        print(f"Error: Command '{sys.argv[1]}' was not found.")
         return
 
     # Delete command from the command file
     try:
         PersistenceManager().get_implementation().delete_command(sys.argv[1])
     except FileNotFoundError:
-        print(f"""Error: Command '{sys.argv[1]}' was not found.""")
+        print(f"Error: Command '{sys.argv[1]}' was not found.")
         return
 
 
 
-    print("Command '" + sys.argv[1] + "' succesfully deleted.")
+    print(f"Command '{sys.argv[1]}' succesfully deleted.")
 
 if __name__ == "__main__":
     main()

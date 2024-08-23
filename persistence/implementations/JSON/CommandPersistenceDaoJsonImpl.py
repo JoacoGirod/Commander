@@ -33,7 +33,7 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         for command_data in commands:
             command_list.append(Command(
                 command_name=command_data.get(CommandProperty.COMMAND_NAME.value),
-                path_to_python_script=command_data.get(CommandProperty.PATH_TO_PYTHON_SCRIPT.value),
+                path_to_python_or_bash_script=command_data.get(CommandProperty.SCRIPT.value),
                 path_to_bash_script=command_data.get(CommandProperty.PATH_TO_BASH_SCRIPT.value),
                 creation_date=command_data.get(CommandProperty.CREATION_DATE.value)
             ))
@@ -46,7 +46,7 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
             if command.get(CommandProperty.COMMAND_NAME.value) == command_to_find:
                 return Command(
                     command_name=command.get(CommandProperty.COMMAND_NAME.value),
-                    path_to_python_script=command.get(CommandProperty.PATH_TO_PYTHON_SCRIPT.value),
+                    path_to_python_or_bash_script=command.get(CommandProperty.SCRIPT.value),
                     path_to_bash_script=command.get(CommandProperty.PATH_TO_BASH_SCRIPT.value),
                     creation_date=command.get(CommandProperty.CREATION_DATE.value)
                 )
@@ -67,7 +67,7 @@ class CommandPersistenceDaoJsonImpl(CommandPersistenceDao):
         commands = self.load_commands()
         for command in commands:
             if command.get(CommandProperty.COMMAND_NAME.value) == command_to_update:
-                command[CommandProperty.PATH_TO_PYTHON_SCRIPT.value] = new_path
+                command[CommandProperty.SCRIPT.value] = new_path
                 self.save_commands(self.persistence_file, commands)
                 return True
         return False

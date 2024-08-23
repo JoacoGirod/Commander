@@ -8,7 +8,7 @@ from persistence.PersistenceManager import *
 from models.Command import Command
 from persistence.implementations.JSON.CommandPersistenceDaoJsonImpl import CommandPersistenceDaoJsonImpl
 from persistence.implementations.YAML.CommandPersistenceDaoYamlImpl import CommandPersistenceDaoYamlImpl
-from persistence.implementations.SQLite.CommandPersistenceSQLiteImpl import CommandPersistenceDaoSQLiteImpl
+from persistence.implementations.SQLITE.CommandPersistenceSQLiteImpl import CommandPersistenceDaoSQLiteImpl
 from configuration.ConfigurationManager import *
 from models.enums.PersistenceImplementation import *
 
@@ -45,8 +45,6 @@ class PersistenceManager:
         persistence_strategy.create_table_if_not_exists()
         return persistence_strategy
 
-    # Should transfer all the information in one implementation to the other
-    # Shouldn't be that hard as the persistence modules all use dictionary returns, and dictionary inputs for creation
     def shift_implementation(self, new_implementation):
         initial_configuration = ConfigurationManager().get_configuration()
         initial_implementation = self.get_implementation()
