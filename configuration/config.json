@@ -1,0 +1,6 @@
+{
+    "implementation_type": "SQLITE",
+    "storage_file_name": "command_storage",
+    "storage_file_dir": "/persistence/implementations/",
+    "storage_file_path": "/home/joaquin/Desktop/Commander/persistence/implementations/SQLITE/command_storage.sqlite"
+}
